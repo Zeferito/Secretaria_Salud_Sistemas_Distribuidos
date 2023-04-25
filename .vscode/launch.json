@@ -1,0 +1,34 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-AutorizacionApplication<autorizacion>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.distribuidos.secretariasalud.autorizacion.AutorizacionApplication",
+            "projectName": "autorizacion",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-BrokerApplication<broker>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.distribuidos.secretariasalud.broker.BrokerApplication",
+            "projectName": "broker",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ExpedientesApplication<expedientes>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.distribuidos.secretariasalud.expedientes.ExpedientesApplication",
+            "projectName": "expedientes",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
