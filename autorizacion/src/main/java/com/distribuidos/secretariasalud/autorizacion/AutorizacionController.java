@@ -52,14 +52,14 @@ public class AutorizacionController {
         usuario.setRol("doctor");
         RepoUsuarios.save(usuario);
          
-        return new ModelAndView("redirect:http://localhost:8080/home").addObject("rol", usuario.getRol());
+        return new ModelAndView("redirect:http://localhost:8080/home").addObject("usuario", usuario);
     }
 
     @PostMapping("/registrar-paciente")
     public ModelAndView RegistrarUsuario(@RequestBody Usuario usuario){
         usuario.setRol("paciente");
         RepoUsuarios.save(usuario);
-        return new ModelAndView("redirect:http://localhost:8080/home").addObject("rol", usuario.getRol());
+        return new ModelAndView("redirect:http://localhost:8080/home").addObject("usuario", usuario);
     }
 
 

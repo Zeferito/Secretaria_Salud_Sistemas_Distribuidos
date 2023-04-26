@@ -25,7 +25,7 @@ public class BrokerController {
 
         //obtener direccion del server
         Servidor server=servidores.findAuthServer();
-
+        server.setNumRequest(server.getNumRequest()+1);
         return new ModelAndView("redirect:http://"+server.getDominio()+":"+server.getPuerto()+"/autenticacion");
     }
 
@@ -34,7 +34,7 @@ public class BrokerController {
 
         //obtener direccion del server
         Servidor server=servidores.findAuthServer();
-
+        server.setNumRequest(server.getNumRequest()+1);
         return new ModelAndView("redirect:http://"+server.getDominio()+":"+server.getPuerto()+"/autenticacion");
     }
 
@@ -43,6 +43,11 @@ public class BrokerController {
 
         //obtener direccion del server
         Servidor server=servidores.findExpedienteServer();
+        server.setNumRequest(server.getNumRequest()+1);
+        //añadir cliente a lista
+        
+
+        //crear cola para comunicación
 
        // String uRol = (String) modelo.asMap().get("rol");
         return new ModelAndView("redirect:http://"+server.getDominio()+":"+server.getPuerto()+"/home");
