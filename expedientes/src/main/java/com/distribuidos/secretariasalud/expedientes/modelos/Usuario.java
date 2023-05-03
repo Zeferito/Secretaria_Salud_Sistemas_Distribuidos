@@ -1,4 +1,4 @@
-package com.distribuidos.secretariasalud.autorizacion;
+package com.distribuidos.secretariasalud.expedientes.modelos;
 
 import java.util.Collection;
 import java.util.List;

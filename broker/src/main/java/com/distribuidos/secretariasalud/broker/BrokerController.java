@@ -1,12 +1,18 @@
 package com.distribuidos.secretariasalud.broker;
 
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.List;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 public class BrokerController {
@@ -45,8 +51,9 @@ public class BrokerController {
         Servidor server=servidores.findExpedienteServer();
         server.setNumRequest(server.getNumRequest()+1);
         //añadir cliente a lista
-        
-
+   /*      String auth = httpRequest.getHeader(HttpHeaders.AUTHORIZATION);
+        httpResponse.addHeader(HttpHeaders.AUTHORIZATION, auth);
+ */
         //crear cola para comunicación
 
        // String uRol = (String) modelo.asMap().get("rol");
