@@ -2,23 +2,31 @@ package com.distribuidos.secretariasalud.broker;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.List;
+import java.util.Collections;
 
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.ui.Model;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 public class BrokerController {
     
+    private final RestTemplate restTemplate;
+
     Servidores servidores;
     public BrokerController(){
+        restTemplate=new RestTemplateBuilder().build();
         if(servidores==null){
             servidores = new Servidores();
             servidores.addServidor(new Servidor(8081, "localhost","auth"));
@@ -35,13 +43,22 @@ public class BrokerController {
         return new ModelAndView("redirect:http://"+server.getDominio()+":"+server.getPuerto()+"/autenticacion");
     }
 
-    @GetMapping("/registrar")
-    public ModelAndView RegistrarUsuario(){
+    @PostMapping("/registrar-paciente")
+    public ResponseEntity<String> RegistrarUsuario(@RequestBody String body){
 
-        //obtener direccion del server
+        HttpHeaders headers = new HttpHeaders();
+        // set `content-type` header
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        // set `accept` header
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        HttpEntity<String> request = new HttpEntity<String>(body, headers);
+
         Servidor server=servidores.findAuthServer();
+        ResponseEntity<String> response = this.restTemplate.postForEntity("http://"+server.getDominio()+":"+server.getPuerto()+"/registrar-paciente", request, String.class);
+        //obtener direccion del server
+      
         server.setNumRequest(server.getNumRequest()+1);
-        return new ModelAndView("redirect:http://"+server.getDominio()+":"+server.getPuerto()+"/autenticacion");
+        return response;
     }
 
     @GetMapping("/home")
