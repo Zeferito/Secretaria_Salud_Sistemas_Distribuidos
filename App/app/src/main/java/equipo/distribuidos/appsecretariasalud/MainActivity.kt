@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
        //startTimer()
-        val intent = Intent(applicationContext, Registro::class.java)
+        val intent = Intent(applicationContext, SolicitudPermisos::class.java)
         startActivity(intent)
 
     }

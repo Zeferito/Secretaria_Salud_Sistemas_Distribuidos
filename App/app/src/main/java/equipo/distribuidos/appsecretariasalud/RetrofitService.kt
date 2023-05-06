@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitService {
 
-    var dir=""
+    var dir="192.168.1.199"
     private  var retrofitService=Retrofit.Builder()
         .baseUrl("http://$dir:8080")
         .addConverterFactory(GsonConverterFactory.create(Gson()))

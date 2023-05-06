@@ -1,4 +1,4 @@
-package com.distribuidos.secretariasalud.expedientes;
+package com.distribuidos.secretariasalud.expedientes.rabbitConfig;
 
 import org.springframework.stereotype.Component;
 

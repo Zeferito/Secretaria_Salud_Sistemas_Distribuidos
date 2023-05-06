@@ -1,4 +1,4 @@
-package com.distribuidos.secretariasalud.expedientes;
+package com.distribuidos.secretariasalud.expedientes.controlllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

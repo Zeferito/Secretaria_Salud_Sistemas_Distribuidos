@@ -1,4 +1,4 @@
-package com.distribuidos.secretariasalud.expedientes;
+package com.distribuidos.secretariasalud.expedientes.controlllers;
 
 import java.util.Date;
 
@@ -6,16 +6,29 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.distribuidos.secretariasalud.expedientes.ExpedientesApplication;
+import com.distribuidos.secretariasalud.expedientes.modelos.Permiso;
+import com.distribuidos.secretariasalud.expedientes.repositorios.RepositorioPermisos;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 @RestController
-@RequestMapping("/home/doctor")
+@RequestMapping("/doctor")
 public class DoctorController {
-    
+
+    @Autowired
+    private Gson gson;
+
     @Autowired
     private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private RepositorioPermisos repositorioPermisos;
     
     @GetMapping("/pacientes/{paciente}")
     public ModelAndView buscarPaciente(@PathVariable("paciente") String nombre){
@@ -32,13 +45,19 @@ public class DoctorController {
         return null;
     }
 
-    @GetMapping("/permisos/solicitar/{idpaciente}")
+    @PostMapping("/permisos/solicitar/{idpaciente}")
     public ModelAndView solicitarPermiso(@PathVariable("idpaciente") String paciente){
 
         //enviar permiso a la cola
 
-        rabbitTemplate.convertAndSend(ExpedientesApplication.topicExchangeName, "expediente.permisos."+paciente, new Permiso(null,paciente,new Date()).toString());
+        Permiso permiso=new Permiso(null,paciente,new Date(),"solicitado");
         
+       
+        rabbitTemplate.convertAndSend("expedientes", "solicitudes."+paciente, gson.toJson(permiso));
+        
+        //guardar en bd
+        repositorioPermisos.save(permiso);
+
         return null;
     }
 
