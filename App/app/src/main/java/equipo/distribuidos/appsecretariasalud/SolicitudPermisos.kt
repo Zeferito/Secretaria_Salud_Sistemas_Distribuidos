@@ -14,19 +14,20 @@ class SolicitudPermisos : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_solicitud_permisos)
 
+        //corre lo de rabbit en segundo plano
         someTask().execute()
     }
 
     class someTask() : AsyncTask<Void, Void, String>() {
         var QUEUE_NAME="solicitudes"
-        var direccion="beaver.rmq.cloudamqp.com"
+        var direccion=""
         override fun doInBackground(vararg params: Void?): String? {
-            // ...
+            // ...u
             val factory = ConnectionFactory()
             factory.host= direccion;
-            factory.username=""
-            factory.password=""
-            factory.virtualHost="nbjguekd"
+            factory.username="test"
+            factory.password="test"
+            factory.virtualHost="/"
             factory.port=5672
             val connection = factory.newConnection()
             val channel = connection.createChannel()

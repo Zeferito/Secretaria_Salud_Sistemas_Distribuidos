@@ -68,6 +68,28 @@ public class AutorizacionController {
 
     }
 
+    @PostMapping("/login/movil")
+    public ResponseEntity iniciarSesionMovil(@RequestBody Usuario usuario, HttpServletResponse response){
+        
+       /*  Usuario userFind= RepoUsuarios.save(usuario);
+        if(usuario.getPassword().equals(userFind.getPassword())){
+
+
+        //redirectAttributes.addFlashAttribute("rol", userFind.getRol());
+           //return new ModelAndView("redirect:http://localhost:8080/home"); 
+        } */
+        
+        Usuario usuarioFind = RepoUsuarios.findByCorreo(usuario.getCorreo());            
+        
+        if(passEncoder.matches(usuario.getPassword(), usuarioFind.getPassword())){
+
+            response.addHeader(HttpHeaders.AUTHORIZATION, PREFIX+jwtService.generateToken(usuarioFind));
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.status(403).build();
+
+    }
+
     @GetMapping("/registrar-doctor")
     public ModelAndView RegistrarDoctorView(){
         
@@ -99,6 +121,15 @@ public class AutorizacionController {
         RepoUsuarios.save(usuario);
         response.addHeader(HttpHeaders.AUTHORIZATION, PREFIX+jwtService.generateToken(usuario));
         return new ModelAndView("redirect:http://localhost:8080/home");
+    }
+
+    @PostMapping("/registrar-paciente/movil")
+    public ResponseEntity RegistrarUsuarioMovil(@RequestBody Usuario usuario, HttpServletResponse response){
+        usuario.setRol("paciente");
+        usuario.setPassword(passEncoder.encode(usuario.getPassword()));
+        RepoUsuarios.save(usuario);
+        response.addHeader(HttpHeaders.AUTHORIZATION, PREFIX+jwtService.generateToken(usuario));
+        return ResponseEntity.ok().build();
     }
 
 

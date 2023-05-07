@@ -1,5 +1,6 @@
 package equipo.distribuidos.appsecretariasalud
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -23,10 +24,14 @@ class Registro : AppCompatActivity() {
             var usuario = Usuario(txtNombre.text.toString(),txtCorreo.text.toString(),txtPassword.text.toString())
             thread {
                 val request=RetrofitService.autorizacionService.registrarUsuario(usuario)
-                val body=request.execute().body()
-                print("peticion realizada")
-                print(body)
+                val requestFinal=request.execute()
+                if(requestFinal.isSuccessful){
+                    print("peticion realizada")
+                }
             }
+            Toast.makeText(this,"Te has registrado correctamente",Toast.LENGTH_SHORT)
+            val intent = Intent(applicationContext, SolicitudPermisos::class.java)
+            startActivity(intent)
         }
 
     }

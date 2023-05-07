@@ -47,7 +47,7 @@ public class AplicationConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http)throws Exception{
 
         http.authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/login","/autenticacion","/registrar-doctor","/registrar-paciente")
+                        .requestMatchers("/login","/autenticacion","/registrar-doctor","/registrar-paciente","/registrar-paciente/movil","/login/movil")
                         .permitAll())
                         .csrf().disable();
         return http.build();

@@ -43,6 +43,28 @@ public class BrokerController {
         return new ModelAndView("redirect:http://"+server.getDominio()+":"+server.getPuerto()+"/autenticacion");
     }
 
+     //para moviles
+     @PostMapping("/login")
+     public ResponseEntity<String> login(@RequestBody String body){
+ 
+         HttpHeaders headers = new HttpHeaders();
+         // set `content-type` header
+         headers.setContentType(MediaType.APPLICATION_JSON);
+         // set `accept` header
+ 
+         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+         HttpEntity<String> request = new HttpEntity<String>(body, headers);
+ 
+         Servidor server=servidores.findAuthServer();
+         ResponseEntity<String> response = this.restTemplate.postForEntity("http://"+server.getDominio()+":"+server.getPuerto()+"/login/movil", request, String.class);
+         //obtener direccion del server
+       
+         server.setNumRequest(server.getNumRequest()+1);
+         return response;
+     }
+
+
+    //para moviles
     @PostMapping("/registrar-paciente")
     public ResponseEntity<String> RegistrarUsuario(@RequestBody String body){
 
@@ -50,11 +72,14 @@ public class BrokerController {
         // set `content-type` header
         headers.setContentType(MediaType.APPLICATION_JSON);
         // set `accept` header
+
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         HttpEntity<String> request = new HttpEntity<String>(body, headers);
 
+        
+
         Servidor server=servidores.findAuthServer();
-        ResponseEntity<String> response = this.restTemplate.postForEntity("http://"+server.getDominio()+":"+server.getPuerto()+"/registrar-paciente", request, String.class);
+        ResponseEntity<String> response = this.restTemplate.postForEntity("http://"+server.getDominio()+":"+server.getPuerto()+"/registrar-paciente/movil", request, String.class);
         //obtener direccion del server
       
         server.setNumRequest(server.getNumRequest()+1);
