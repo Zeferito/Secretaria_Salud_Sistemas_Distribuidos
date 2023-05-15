@@ -21,7 +21,7 @@ class Registro : AppCompatActivity() {
         var btnRegistrar:Button=findViewById(R.id.btnRegistrarse)
 
         btnRegistrar.setOnClickListener {
-            var usuario = Usuario(txtNombre.text.toString(),txtCorreo.text.toString(),txtPassword.text.toString())
+            var usuario = Usuario("",txtNombre.text.toString(),txtCorreo.text.toString(),txtPassword.text.toString())
             thread {
                 val request=RetrofitService.autorizacionService.registrarUsuario(usuario)
                 val requestFinal=request.execute()

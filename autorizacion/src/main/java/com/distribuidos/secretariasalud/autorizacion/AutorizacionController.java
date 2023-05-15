@@ -84,7 +84,7 @@ public class AutorizacionController {
         if(passEncoder.matches(usuario.getPassword(), usuarioFind.getPassword())){
 
             response.addHeader(HttpHeaders.AUTHORIZATION, PREFIX+jwtService.generateToken(usuarioFind));
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().body(usuarioFind);
         }
         return ResponseEntity.status(403).build();
 

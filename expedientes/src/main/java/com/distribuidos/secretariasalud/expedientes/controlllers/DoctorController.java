@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -45,15 +46,15 @@ public class DoctorController {
         return null;
     }
 
-    @PostMapping("/permisos/solicitar/{idpaciente}")
-    public ModelAndView solicitarPermiso(@PathVariable("idpaciente") String paciente){
+    @PostMapping("/permisos/solicitar/")
+    public ModelAndView solicitarPermiso(@RequestBody Permiso permiso){
 
         //enviar permiso a la cola
-
-        Permiso permiso=new Permiso(null,paciente,new Date(),"solicitado");
+        permiso.setFecha(new Date());
+        permiso.setEstado("solicitado");
         
        
-        rabbitTemplate.convertAndSend("expedientes", "solicitudes."+paciente, gson.toJson(permiso));
+        rabbitTemplate.convertAndSend("expedientes", "solicitudes."+permiso.getIdPaciente(), gson.toJson(permiso));
         
         //guardar en bd
         repositorioPermisos.save(permiso);

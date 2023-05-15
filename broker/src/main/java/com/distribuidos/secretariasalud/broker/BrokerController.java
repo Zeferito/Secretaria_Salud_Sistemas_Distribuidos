@@ -2,6 +2,7 @@ package com.distribuidos.secretariasalud.broker;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import java.util.Collections;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -11,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -102,6 +104,67 @@ public class BrokerController {
         return new ModelAndView("redirect:http://"+server.getDominio()+":"+server.getPuerto()+"/home");
     }
 
+    @GetMapping("/permisos/{id}")
+    public ResponseEntity<String> getPermisos(@PathVariable("id")String idPaciente){
+        HttpHeaders headers = new HttpHeaders();
+        // set `content-type` header
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        // set `accept` header
+
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        HttpEntity<String> request = new HttpEntity<String>("", headers);
+        
+        
+
+        Servidor server=servidores.findExpedienteServer();
+        ResponseEntity<String> response = this.restTemplate.getForEntity("http://"+server.getDominio()+":"+server.getPuerto()+"/home/permisos/"+idPaciente, String.class);
+        //obtener direccion del server
+    
+        server.setNumRequest(server.getNumRequest()+1);
+        return response;
+    }
+
+    @PostMapping("/aceptar-solicitud/{idSolicitud}")
+    public ResponseEntity<String> aceptarSolicitud(@PathVariable("idSolicitud")String idSolicitud){
+
+        HttpHeaders headers = new HttpHeaders();
+        // set `content-type` header
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        // set `accept` header
+
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        HttpEntity<String> request = new HttpEntity<String>("", headers);
+
+        
+
+        Servidor server=servidores.findExpedienteServer();
+        ResponseEntity<String> response = this.restTemplate.postForEntity("http://"+server.getDominio()+":"+server.getPuerto()+"/home/aceptar-solicitud/"+idSolicitud, request, String.class);
+        //obtener direccion del server
+      
+        server.setNumRequest(server.getNumRequest()+1);
+        return response;
+    }
+
+    @PostMapping("/rechazar-solicitud/{idSolicitud}")
+    public ResponseEntity<String> rechazarSolicitud(@PathVariable("idSolicitud")String idSolicitud){
+
+        HttpHeaders headers = new HttpHeaders();
+        // set `content-type` header
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        // set `accept` header
+
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        HttpEntity<String> request = new HttpEntity<String>("", headers);
+
+        
+
+        Servidor server=servidores.findExpedienteServer();
+        ResponseEntity<String> response = this.restTemplate.postForEntity("http://"+server.getDominio()+":"+server.getPuerto()+"/home/rechazar-solicitud/"+idSolicitud, request, String.class);
+        //obtener direccion del server
+      
+        server.setNumRequest(server.getNumRequest()+1);
+        return response;
+    }
 
 
 }

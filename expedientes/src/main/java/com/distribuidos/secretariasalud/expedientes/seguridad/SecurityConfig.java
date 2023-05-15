@@ -18,7 +18,7 @@ public class SecurityConfig {
 
        
         http.authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/**")
+                        .requestMatchers("/**","/home/**")
                         .permitAll())
                         .csrf().disable();
             
