@@ -1,5 +1,6 @@
 package com.distribuidos.secretariasalud.broker;
 
+import java.io.IOException;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 public class BrokerController {
@@ -89,7 +91,7 @@ public class BrokerController {
     }
 
     @GetMapping("/home")
-    public ModelAndView ConsultarHome(@ModelAttribute("rol") String rol){
+    public void ConsultarHome(HttpServletRequest request, HttpServletResponse response){
 
         //obtener direccion del server
         Servidor server=servidores.findExpedienteServer();
@@ -101,7 +103,24 @@ public class BrokerController {
         //crear cola para comunicación
 
        // String uRol = (String) modelo.asMap().get("rol");
-        return new ModelAndView("redirect:http://"+server.getDominio()+":"+server.getPuerto()+"/home");
+
+       //HttpHeaders headers = new HttpHeaders();
+       // set `content-type` header
+       //headers.setContentType(MediaType.APPLICATION_JSON);
+       // set `accept` header
+        response.addHeader(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
+       //headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+       //HttpEntity<String> requestToServer = new HttpEntity<String>("", headers);
+       
+       try {
+        response.sendRedirect("http://"+server.getDominio()+":"+server.getPuerto()+"/home");
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+     
+       //obtener direccion del server
+        //return new ModelAndView("redirect:http://"+server.getDominio()+":"+server.getPuerto()+"/home");
     }
 
     @GetMapping("/permisos/{id}")

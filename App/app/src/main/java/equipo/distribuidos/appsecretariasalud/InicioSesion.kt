@@ -29,7 +29,7 @@ class InicioSesion : AppCompatActivity() {
                     idPaciente= requestFinal.body()!!.id
                     runOnUiThread{
                         Toast.makeText(this,"Bienvenido",Toast.LENGTH_SHORT)
-                        val intent = Intent(applicationContext, Permisos::class.java)
+                        val intent = Intent(applicationContext, AutenticarPorHuella::class.java)
                         Log.i("PACIENTE_ID",idPaciente)
                         intent.putExtra("id",idPaciente)
                         startActivity(intent)

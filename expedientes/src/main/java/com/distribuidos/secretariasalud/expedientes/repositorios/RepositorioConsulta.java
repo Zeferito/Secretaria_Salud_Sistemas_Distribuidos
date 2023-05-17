@@ -5,5 +5,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import com.distribuidos.secretariasalud.expedientes.modelos.Consulta;
 
 public interface RepositorioConsulta extends MongoRepository<Consulta, String> {
-    public Consulta findByCorreo(String consulta);
+    //public Consulta findByCorreo(String consulta);
 }

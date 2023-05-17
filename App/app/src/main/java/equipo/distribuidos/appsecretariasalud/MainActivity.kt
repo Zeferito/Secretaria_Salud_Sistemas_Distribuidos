@@ -1,6 +1,9 @@
 package equipo.distribuidos.appsecretariasalud
 
 import android.content.Intent
+import android.hardware.biometrics.BiometricManager.Authenticators.BIOMETRIC_STRONG
+import android.hardware.biometrics.BiometricManager.Authenticators.DEVICE_CREDENTIAL
+import android.hardware.biometrics.BiometricPrompt
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -13,6 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
        //startTimer()
+
         val intent = Intent(applicationContext, InicioSesion::class.java)
         startActivity(intent)
 

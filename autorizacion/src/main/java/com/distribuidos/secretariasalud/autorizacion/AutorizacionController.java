@@ -1,5 +1,6 @@
 package com.distribuidos.secretariasalud.autorizacion;
 
+import java.io.IOException;
 import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,7 +49,7 @@ public class AutorizacionController {
         return new ModelAndView("/user-autenticacion");
     }
     @PostMapping("/login")
-    public ModelAndView iniciarSesion(@RequestBody Usuario usuario, HttpServletResponse response){
+    public ModelAndView iniciarSesion(@ModelAttribute Usuario usuario, HttpServletResponse response){
         
        /*  Usuario userFind= RepoUsuarios.save(usuario);
         if(usuario.getPassword().equals(userFind.getPassword())){
@@ -115,12 +117,18 @@ public class AutorizacionController {
     }
 
     @PostMapping("/registrar-paciente")
-    public ModelAndView RegistrarUsuario(@RequestBody Usuario usuario, HttpServletResponse response){
+    public void RegistrarUsuario(@RequestBody Usuario usuario, HttpServletResponse response){
         usuario.setRol("paciente");
         usuario.setPassword(passEncoder.encode(usuario.getPassword()));
         RepoUsuarios.save(usuario);
         response.addHeader(HttpHeaders.AUTHORIZATION, PREFIX+jwtService.generateToken(usuario));
-        return new ModelAndView("redirect:http://localhost:8080/home");
+        try {
+            response.sendRedirect("http://localhost:8080/home");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        //return new ModelAndView("redirect:http://localhost:8080/home").addObject("usuario", response);
     }
 
     @PostMapping("/registrar-paciente/movil")

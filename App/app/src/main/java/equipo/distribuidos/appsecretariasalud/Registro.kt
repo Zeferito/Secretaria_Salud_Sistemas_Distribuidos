@@ -30,7 +30,7 @@ class Registro : AppCompatActivity() {
                 }
             }
             Toast.makeText(this,"Te has registrado correctamente",Toast.LENGTH_SHORT)
-            val intent = Intent(applicationContext, SolicitudPermisos::class.java)
+            val intent = Intent(applicationContext, InicioSesion::class.java)
             startActivity(intent)
         }
 

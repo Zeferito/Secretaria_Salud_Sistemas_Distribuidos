@@ -1,0 +1,20 @@
+<html   xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <form action = "/doctor/permisos/solicitar/" method="post" class="login-form"  th:object="${permiso}">
+            <label for="paciente">Paciente:</label>
+            <select id="paciente" name="idPaciente" field="*{idPaciente}">
+                <option th:each="paciente : ${pacientes}" value="${paciente.id}" th:text="${paciente.nombre}"
+                ></option>
+
+            </select>
+            <br>
+          
+            <label for="doctor" >ID del Doctor:</label>
+            <input type="text" id="doctor" name="idDoctor" field="*{idDoctor}">
+            <br>
+            <input type="submit" value="Solicitar Permiso">
+          </form>
+          
+    </body>
+
+</html>

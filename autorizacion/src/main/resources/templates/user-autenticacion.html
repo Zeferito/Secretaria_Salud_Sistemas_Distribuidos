@@ -7,7 +7,7 @@
   <body>
     <div class="login-page">
       <div class="form">
-        <form action="login" class="login-form" th:object="${usuario}">
+        <form action="login" method="post" class="login-form" th:object="${usuario}">
           <input type="text" placeholder="Correo" name="correo"/></br>
           <input type="password" placeholder="Contraseña" name="password"/></br>
           <button>Iniciar sesión</button>

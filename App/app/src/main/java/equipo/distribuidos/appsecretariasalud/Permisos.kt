@@ -1,18 +1,22 @@
 package equipo.distribuidos.appsecretariasalud
 
 import android.app.AlertDialog
+import android.app.KeyguardManager
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.hardware.biometrics.BiometricPrompt
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CancellationSignal
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.*
+import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
 import kotlin.concurrent.thread
 
 class Permisos : AppCompatActivity() {
@@ -21,6 +25,9 @@ class Permisos : AppCompatActivity() {
     var permisosSoli=ArrayList<Permiso>()
     lateinit var adaptador:AdaptadorPermisos
     lateinit var permisosList:ListView
+
+
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_permisos)
