@@ -23,4 +23,7 @@ interface ExpedientesService {
 
     @POST("/rechazar-solicitud/{idSolicitud}")
     fun rechazarSolicitud(@Path("idSolicitud")idSolicitud:String):Call<Unit>
+
+    @GET("expedientes")
+    fun getExpedientes(): Call<List<Expediente>>
 }
